@@ -1,0 +1,20 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+li{
+text-align: left;
+list-style:disc;
+}
+li+li{
+  margin-top: 8px;
+}
+.remove{
+font-size: 0.5em;
+background-color: transparent;
+border: solid 1px #fff;
+}
+
