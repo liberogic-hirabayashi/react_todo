@@ -8,13 +8,28 @@
 li{
 text-align: left;
 list-style:disc;
+font-size: 20px;
 }
 li+li{
   margin-top: 8px;
 }
+span{
+  font-size: 14px;
+  margin-left: 20px;
+}
 .remove{
-font-size: 0.5em;
+margin-left: 10px;
+font-size: 12px;
 background-color: transparent;
 border: solid 1px #fff;
 }
+
+select,input{
+  padding: 0.3em;
+}
+select{
+  font-size: 12px;
+  margin-left: 20px;
+}
+
 
