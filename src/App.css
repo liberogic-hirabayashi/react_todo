@@ -13,11 +13,8 @@ font-size: 20px;
 li+li{
   margin-top: 8px;
 }
-span{
-  font-size: 14px;
-  margin-left: 20px;
-}
-.remove{
+
+.sm-btn{
 margin-left: 10px;
 font-size: 12px;
 background-color: transparent;
