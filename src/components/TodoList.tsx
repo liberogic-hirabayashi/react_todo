@@ -12,6 +12,38 @@ function TodoList() {
   const [filter, setFilter] = useState<string>("");
   const [filteredTodos, setFilteredTodos] = useState<TodoObject>([]);
 
+  function Todo({ todo }) {
+    return (
+      <>
+        <li key={todo.id}>
+          {todo.status === "Not started" && <span>{todo.text}</span>}
+          {todo.status === "In progress" && (
+            <span className="inProgress">{todo.text}</span>
+          )}
+          {todo.status === "Done" && <span className="done">{todo.text}</span>}
+
+          <select
+            name="status"
+            value={todo.status}
+            onChange={(e) => {
+              changeStatus(todo, e);
+            }}
+          >
+            <option value="Not started">Not started</option>
+            <option value="In progress">In progress</option>
+            <option value="Done">Done</option>
+          </select>
+          <button className="sm-btn" onClick={() => editTodo(todo)}>
+            編集
+          </button>
+          <button onClick={() => removeTodo(todo)} className="sm-btn">
+            削除
+          </button>
+        </li>
+      </>
+    );
+  }
+
   useEffect(() => {
     const filteringTodos = () => {
       switch (filter) {
@@ -110,33 +142,7 @@ function TodoList() {
 
       <ul>
         {filteredTodos.map((todo) => (
-          <li key={todo.id}>
-            {todo.status === "Not started" && <span>{todo.text}</span>}
-            {todo.status === "In progress" && (
-              <span className="inProgress">{todo.text}</span>
-            )}
-            {todo.status === "Done" && (
-              <span className="done">{todo.text}</span>
-            )}
-
-            <select
-              name="status"
-              value={todo.status}
-              onChange={(e) => {
-                changeStatus(todo, e);
-              }}
-            >
-              <option value="Not started">Not started</option>
-              <option value="In progress">In progress</option>
-              <option value="Done">Done</option>
-            </select>
-            <button className="sm-btn" onClick={() => editTodo(todo)}>
-              編集
-            </button>
-            <button onClick={() => removeTodo(todo)} className="sm-btn">
-              削除
-            </button>
-          </li>
+          <Todo todo={todo} />
         ))}
       </ul>
     </>
