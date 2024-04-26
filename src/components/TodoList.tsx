@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-type TodoObject = { id: number; text: string; status: string }[];
+import Todo from "./Todo"
+import { TodoObject } from "../type";
 
 function TodoList() {
   const [todos, setTodos] = useState<TodoObject>([]);
@@ -7,42 +8,11 @@ function TodoList() {
   const [todoId, setTodoId] = useState<number>(todos.length + 1);
   const [status, setStatus] = useState<string>("Not started");
   const [edit, setEdit] = useState<boolean>(false);
-  const [editId, seteditId] = useState<number | null>(null);
+  const [editId, setEditId] = useState<number | null>(null);
   const [editText, setEditText] = useState<string>("");
   const [filter, setFilter] = useState<string>("");
   const [filteredTodos, setFilteredTodos] = useState<TodoObject>([]);
 
-  function Todo({ todo }) {
-    return (
-      <>
-        <li key={todo.id}>
-          {todo.status === "Not started" && <span>{todo.text}</span>}
-          {todo.status === "In progress" && (
-            <span className="inProgress">{todo.text}</span>
-          )}
-          {todo.status === "Done" && <span className="done">{todo.text}</span>}
-
-          <select
-            name="status"
-            value={todo.status}
-            onChange={(e) => {
-              changeStatus(todo, e);
-            }}
-          >
-            <option value="Not started">Not started</option>
-            <option value="In progress">In progress</option>
-            <option value="Done">Done</option>
-          </select>
-          <button className="sm-btn" onClick={() => editTodo(todo)}>
-            編集
-          </button>
-          <button onClick={() => removeTodo(todo)} className="sm-btn">
-            削除
-          </button>
-        </li>
-      </>
-    );
-  }
 
   useEffect(() => {
     const filteringTodos = () => {
@@ -76,22 +46,15 @@ function TodoList() {
     }
   };
 
-  const removeTodo = (i) => {
-    setTodos(todos.filter((todo) => todo !== i));
-  };
-  const todoValue = (e) => {
+
+  const todoValue = (e:React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
   };
 
-  const editValue = (e) => {
+  const editValue = (e:React.ChangeEvent<HTMLInputElement>) => {
     setEditText(e.target.value);
   };
 
-  const editTodo = (todo) => {
-    setEdit(true);
-    setEditText(todo.text);
-    seteditId(todo.id);
-  };
 
   const editSave = () => {
     const newArray = todos.map((todo) => {
@@ -104,18 +67,10 @@ function TodoList() {
   const cancel = () => {
     setEdit(false);
     setText("");
-    seteditId(null);
+    setEditId(null);
   };
 
-  const changeStatus = (targetTodo, e) => {
-    // console.log(targetTodo)
-    const newArray = todos.map((todo) =>
-      todo.id === targetTodo.id ? { ...todo, status: e.target.value } : todo
-    );
-
-    setTodos(newArray);
-  };
-  const changeFilter = (e) => {
+  const changeFilter = (e:React.ChangeEvent<HTMLSelectElement>) => {
     setFilter(e.target.value);
   };
 
@@ -142,7 +97,7 @@ function TodoList() {
 
       <ul>
         {filteredTodos.map((todo) => (
-          <Todo todo={todo} />
+          <Todo todo={todo} todos={todos} setTodos={setTodos} setEdit={setEdit} setText={setText} setEditText={setEditText} setEditId={setEditId}/>
         ))}
       </ul>
     </>
