@@ -35,5 +35,8 @@ select{
   font-size: 12px;
   margin-left: 20px;
 }
+.text-red{
+  color: red;
+}
 
 

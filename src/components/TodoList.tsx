@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Todo from "./Todo"
+import Todo from "./Todo";
 import { TodoObject } from "../type";
 
 function TodoList() {
@@ -12,7 +12,7 @@ function TodoList() {
   const [editText, setEditText] = useState<string>("");
   const [filter, setFilter] = useState<string>("");
   const [filteredTodos, setFilteredTodos] = useState<TodoObject>([]);
-
+  const [note, setNote] = useState("");
 
   useEffect(() => {
     const filteringTodos = () => {
@@ -42,26 +42,32 @@ function TodoList() {
       setTodos([...todos, { id: todoId, text: text, status: status }]);
       setTodoId(todoId + 1);
       setText("");
+      setNote('')
       // console.log(todos);
+    } else {
+      setNote("入力してください。");
     }
   };
 
-
-  const todoValue = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const todoValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
   };
 
-  const editValue = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const editValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEditText(e.target.value);
   };
 
-
   const editSave = () => {
-    const newArray = todos.map((todo) => {
-      return todo.id === editId ? { ...todo, text: editText } : todo;
-    });
-    setTodos(newArray);
-    cancel();
+    if (editText !== "") {
+      const newArray = todos.map((todo) => {
+        return todo.id === editId ? { ...todo, text: editText } : todo;
+      });
+      setTodos(newArray);
+      cancel();
+      setNote('')
+    } else {
+      setNote("入力してください。");
+    }
   };
 
   const cancel = () => {
@@ -70,12 +76,13 @@ function TodoList() {
     setEditId(null);
   };
 
-  const changeFilter = (e:React.ChangeEvent<HTMLSelectElement>) => {
+  const changeFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFilter(e.target.value);
   };
 
   return (
     <>
+      <h3 className="text-red">{note}</h3>
       {edit ? (
         <div>
           <input type="text" value={editText} onChange={editValue} />
@@ -97,7 +104,15 @@ function TodoList() {
 
       <ul>
         {filteredTodos.map((todo) => (
-          <Todo todo={todo} todos={todos} setTodos={setTodos} setEdit={setEdit} setText={setText} setEditText={setEditText} setEditId={setEditId}/>
+          <Todo
+            todo={todo}
+            todos={todos}
+            setTodos={setTodos}
+            setEdit={setEdit}
+            setText={setText}
+            setEditText={setEditText}
+            setEditId={setEditId}
+          />
         ))}
       </ul>
     </>

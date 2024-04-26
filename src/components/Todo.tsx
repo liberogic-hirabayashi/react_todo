@@ -21,6 +21,7 @@ export default function Todo({
   const removeTodo = (i:number) => {
     setTodos(todos.filter((todo) => todo.id !== i));
     setEditText("");
+    setEdit(false)
   };
 
   const editTodo = (todo:TodoType) => {
